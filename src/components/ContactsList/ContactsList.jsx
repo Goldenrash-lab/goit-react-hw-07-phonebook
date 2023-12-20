@@ -1,28 +1,23 @@
 import React, { useEffect } from 'react';
 import { DeleteBtn, ContactItem } from './ContactsList.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'store/contactsSlice';
-import { fetchContactsThunk } from 'store/contactsThunk';
+import { deleteContactThunk, fetchContactsThunk } from 'store/contactsThunk';
 
 export const ContactsList = () => {
-  // const { contacts, filter } = useSelector(state => state.contacts);
   const dispatch = useDispatch();
   function handleDelete(id) {
-    dispatch(deleteContact(id));
+    dispatch(deleteContactThunk(id));
   }
-  // function filteredContacts() {
-  //   return contacts.filter(el =>
-  //     el.name.toLowerCase().includes(filter.toLowerCase())
-  //   );
-  // }
-  const items = useSelector(state => state.contacts.contacts.items);
+
+  const { items, error, isLoading } = useSelector(state => state.contacts.contacts);
   useEffect(() => {
     dispatch(fetchContactsThunk());
   }, [dispatch]);
 
-  console.log(items);
   return (
     <ul>
+      {error && <h1>{error}</h1>}
+      {isLoading && <h1>Loading...</h1>}
       {items.map(el => (
         <ContactItem key={crypto.randomUUID()}>
           <h4>

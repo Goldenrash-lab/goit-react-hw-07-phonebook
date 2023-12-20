@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Input, Button } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { addContact } from 'store/contactsSlice';
+import { addContactThunk } from 'store/contactsThunk';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const { contacts } = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.contacts.items);
+
   const dispatch = useDispatch();
 
   const handlerChangeName = e => {
@@ -25,12 +26,12 @@ export const ContactForm = () => {
     const newContact = {
       id: nanoid(),
       name,
-      number,
+      phone: number,
     };
     if (isExists) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(addContact(newContact));
+      dispatch(addContactThunk(newContact));
       setName('');
       setNumber('');
     }
