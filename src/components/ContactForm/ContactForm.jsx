@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Button } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from '@reduxjs/toolkit';
 import { addContactThunk } from 'store/contactsThunk';
 
 export const ContactForm = () => {
@@ -24,7 +23,6 @@ export const ContactForm = () => {
     let isExists = contacts.some(el => el.name === name);
 
     const newContact = {
-      id: nanoid(),
       name,
       phone: number,
     };
@@ -40,23 +38,9 @@ export const ContactForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name</label>
-      <Input
-        id="name"
-        onChange={handlerChangeName}
-        type="text"
-        name="name"
-        value={name}
-        required
-      />
+      <Input id="name" onChange={handlerChangeName} type="text" name="name" value={name} required />
       <label htmlFor="phone">Phone</label>
-      <Input
-        id="phone"
-        onChange={handlerChangePhone}
-        type="tel"
-        name="number"
-        value={number}
-        required
-      />
+      <Input id="phone" onChange={handlerChangePhone} type="tel" name="number" value={number} required />
       <Button type="submit">Add contact</Button>
     </form>
   );

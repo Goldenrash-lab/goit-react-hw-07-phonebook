@@ -11,6 +11,11 @@ const phonebookSlice = createSlice({
     },
     filter: '',
   },
+  reducers: {
+    searchContact: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchContactsThunk.pending, state => {
       state.contacts.isLoading = true;

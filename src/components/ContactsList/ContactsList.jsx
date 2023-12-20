@@ -10,16 +10,23 @@ export const ContactsList = () => {
   }
 
   const { items, error, isLoading } = useSelector(state => state.contacts.contacts);
+  const { filter } = useSelector(state => state.contacts);
+
   useEffect(() => {
     dispatch(fetchContactsThunk());
   }, [dispatch]);
+
+  function filteredContacts() {
+    if (filter) return items.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()));
+    else return items;
+  }
 
   return (
     <ul>
       {error && <h1>{error}</h1>}
       {isLoading && <h1>Loading...</h1>}
-      {items.map(el => (
-        <ContactItem key={crypto.randomUUID()}>
+      {filteredContacts().map(el => (
+        <ContactItem key={el.id}>
           <h4>
             {el.name}: {el.phone}
           </h4>
